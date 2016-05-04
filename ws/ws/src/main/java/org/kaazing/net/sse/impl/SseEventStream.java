@@ -78,7 +78,7 @@ public class SseEventStream {
     private AtomicBoolean          reconnected = new AtomicBoolean(false);
     private HttpRequestHandler     sseHandler;
     private SseEventStreamListener listener;
-
+    private String name = MESSAGE;
 
     public SseEventStream(String sseLoc) throws IOException {
         LOG.entering(CLASS_NAME, "<init>", sseLoc);
@@ -183,7 +183,6 @@ public class SseEventStream {
             messageBuffer = messageBuffer + message;
             String field = null;
             String value = null;
-            String name = MESSAGE;
             String data = "";
             immediateReconnect = false;
             while (!aborted && !errored) {
@@ -200,6 +199,7 @@ public class SseEventStream {
                         }
                         doMessage(name, dataBuffer.toString());
                         dataBuffer.setLength(0);
+                        name = MESSAGE;
                     }
                 }
                 
